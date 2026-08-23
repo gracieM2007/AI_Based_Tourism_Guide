@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Explore Nagpur Destinations & Hidden Gems — TripMitra AI{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 3.5rem; padding-bottom: 6rem;">
+    <div class="section-header" style="text-align: center;">
+        <span class="section-tag"><i class="fa-solid fa-binoculars"></i> DESTINATION INTELLIGENCE</span>
+        <h1 class="section-title">Explore Nagpur Places & Hidden Gems</h1>
+        <p style="color: var(--text-secondary); max-width: 680px; margin: 0.5rem auto 0;">
+            Browse our dataset of 23 authentic Nagpur destinations, iconic monuments, local food streets, and quiet hidden secrets.
+        </p>
+    </div>
+
+    <!-- CATEGORY FILTER PILLS -->
+    <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem;">
+        <button class="preset-pill active" onclick="filterExploreCategory(this, 'all')"><i class="fa-solid fa-layer-group"></i> All Places (23)</button>
+        <button class="preset-pill" onclick="filterExploreCategory(this, 'hidden_gem')" style="border-color: var(--indigo-accent); color: var(--indigo-accent);"><i class="fa-solid fa-gem"></i> Hidden Gems & Secrets</button>
+        <button class="preset-pill" onclick="filterExploreCategory(this, 'Nature')"><i class="fa-solid fa-tree"></i> Nature & Lakes</button>
+        <button class="preset-pill" onclick="filterExploreCategory(this, 'Historical')"><i class="fa-solid fa-landmark"></i> Heritage & Forts</button>
+        <button class="preset-pill" onclick="filterExploreCategory(this, 'Spiritual')"><i class="fa-solid fa-place-of-worship"></i> Spiritual Temples</button>
+        <button class="preset-pill" onclick="filterExploreCategory(this, 'Food')"><i class="fa-solid fa-utensils"></i> Food & Dining</button>
+        <button class="preset-pill" onclick="filterExploreCategory(this, 'Adventure')"><i class="fa-solid fa-mountain"></i> Safaris & Treks</button>
+    </div>
+
+    <!-- ALL DESTINATIONS GRID -->
+    <div class="grid-3" id="exploreGrid">
+        {% for dest in destinations %}
+        <div class="card explore-card-item" data-category="{{ dest.category }}" data-hidden="{{ dest.is_hidden_gem }}">
+            <div class="card-img-wrapper">
+                <img src="{{ dest.image_url }}" alt="{{ dest.name }}" class="card-img">
+                <span class="card-category-badge"><i class="fa-solid fa-tag"></i> {{ dest.category }}</span>
+                {% if dest.is_hidden_gem == 1 %}
+                <span class="match-badge" style="background: linear-gradient(135deg, var(--indigo-accent), #4f46e5); top: 1rem; right: 1rem;"><i class="fa-solid fa-gem"></i> Hidden Gem</span>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">{{ dest.name }}</h3>
+                <p class="card-desc">{{ dest.description }}</p>
+                <div class="card-meta">
+                    <div class="meta-item"><i class="fa-solid fa-wallet"></i> Rs. {{ dest.estimated_budget }}</div>
+                    <div class="meta-item"><i class="fa-solid fa-clock"></i> {{ dest.ideal_duration_hours }}h</div>
+                    <div class="meta-item"><i class="fa-solid fa-star" style="color: var(--amber-warning);"></i> {{ dest.rating }}</div>
+                    <div class="meta-item"><i class="fa-solid fa-route"></i> {{ dest.distance_from_nagpur_center }} km</div>
+                </div>
+                <button class="btn btn-secondary" style="width: 100%; margin-top: 1.25rem;" onclick="openDestinationModal({{ dest.id }})">
+                    <i class="fa-solid fa-circle-info"></i> View Details & Google Map
+                </button>
+            </div>
+        </div>
+        {% else %}
+        <div id="fallbackExploreLoading" style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem;">
+            <div class="spinner"></div>
+            <p style="color: var(--text-secondary);">Loading Nagpur destinations from API...</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function filterExploreCategory(btnElement, category) {
+    document.querySelectorAll('.preset-pill').forEach(btn => btn.classList.remove('active'));
+    if (btnElement) btnElement.classList.add('active');
+
+    document.querySelectorAll('.explore-card-item').forEach(card => {
+        const itemCat = card.getAttribute('data-category');
+        const isHidden = card.getAttribute('data-hidden') === '1';
+
+        if (category === 'all') {
+            card.style.display = 'flex';
+        } else if (category === 'hidden_gem') {
+            if (isHidden) {
+                card.style.display = 'flex';
+            } else {
+                card.style.display = 'none';
+            }
+        } else if (itemCat === category) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+// Client-side API fallback if server rendered template was empty
+document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('exploreGrid');
+    const cards = grid ? grid.querySelectorAll('.explore-card-item') : [];
+
+    if (cards.length === 0) {
+        fetch('/api/destinations')
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success' && data.destinations.length > 0) {
+                    renderExploreCardsFromApi(data.destinations);
+                }
+            })
+            .catch(err => console.error("Explore API fetch error:", err));
+    }
+});
+
+function renderExploreCardsFromApi(destinations) {
+    const grid = document.getElementById('exploreGrid');
+    if (!grid) return;
+
+    grid.innerHTML = destinations.map(dest => {
+        const hiddenBadge = dest.is_hidden_gem === 1 
+            ? `<span class="match-badge" style="background: linear-gradient(135deg, var(--indigo-accent), #4f46e5); top: 1rem; right: 1rem;"><i class="fa-solid fa-gem"></i> Hidden Gem</span>` 
+            : '';
+
+        return `
+            <div class="card explore-card-item" data-category="${dest.category}" data-hidden="${dest.is_hidden_gem}">
+                <div class="card-img-wrapper">
+                    <img src="${dest.image_url}" alt="${dest.name}" class="card-img">
+                    <span class="card-category-badge"><i class="fa-solid fa-tag"></i> ${dest.category}</span>
+                    ${hiddenBadge}
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">${dest.name}</h3>
+                    <p class="card-desc">${dest.description}</p>
+                    <div class="card-meta">
+                        <div class="meta-item"><i class="fa-solid fa-wallet"></i> Rs. ${dest.estimated_budget}</div>
+                        <div class="meta-item"><i class="fa-solid fa-clock"></i> ${dest.ideal_duration_hours}h</div>
+                        <div class="meta-item"><i class="fa-solid fa-star" style="color: var(--amber-warning);"></i> ${dest.rating}</div>
+                        <div class="meta-item"><i class="fa-solid fa-route"></i> ${dest.distance_from_nagpur_center} km</div>
+                    </div>
+                    <button class="btn btn-secondary" style="width: 100%; margin-top: 1.25rem;" onclick="openDestinationModal(${dest.id})">
+                        <i class="fa-solid fa-circle-info"></i> View Details & Google Map
+                    </button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+</script>
+{% endblock %}

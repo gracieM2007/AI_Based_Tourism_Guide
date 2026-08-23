@@ -1,0 +1,377 @@
+{% extends "base.html" %}
+
+{% block title %}Personalise Your Trip — TripMitra AI Interactive Configurator{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 3.5rem; padding-bottom: 7rem;">
+    <div class="section-header" style="text-align: center;">
+        <span class="section-tag"><i class="fa-solid fa-sliders"></i> INTERACTIVE TRAVEL CONFIGURATOR</span>
+        <h1 class="section-title">Configure Your Custom Travel Profile</h1>
+        <p style="color: var(--text-secondary); max-width: 650px; margin: 0.5rem auto 0;">
+            Adjust budget limits, trip days, distance radius, and key interests to generate dynamic AI itineraries across Nagpur.
+        </p>
+    </div>
+
+    <!-- FORM ERROR ALERT BOX -->
+    <div id="formError" style="display: none; max-width: 900px; margin: 0 auto 1.5rem; background: rgba(239, 68, 68, 0.12); border: 1px solid #ef4444; color: #fca5a5; padding: 1rem; border-radius: 12px; font-weight: 600; text-align: center;">
+        Please complete all required fields in this step.
+    </div>
+
+    <!-- PROGRESS INDICATOR BAR -->
+    <div style="max-width: 900px; margin: 0 auto;">
+        <div class="planner-progress">
+            <div class="progress-bar-fill" id="progressBarFill"></div>
+            
+            <div class="step-indicator active" data-step="1">
+                <div class="step-circle">01</div>
+                <div class="step-label">Budget & Days</div>
+            </div>
+
+            <div class="step-indicator" data-step="2">
+                <div class="step-circle">02</div>
+                <div class="step-label">Distance Radius</div>
+            </div>
+
+            <div class="step-indicator" data-step="3">
+                <div class="step-circle">03</div>
+                <div class="step-label">Interests (12)</div>
+            </div>
+
+            <div class="step-indicator" data-step="4">
+                <div class="step-circle">04</div>
+                <div class="step-label">Travel Style</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOADING STATE SPINNER -->
+    <div id="loadingState" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+        <h2 style="font-size: 1.6rem; color: #ffffff; margin-bottom: 0.75rem; text-align: center;">Generating Personalised Recommendations & Dynamic Itinerary...</h2>
+        <p style="color: var(--text-secondary); max-width: 540px; margin: 0 auto; text-align: center; line-height: 1.6;">
+            Calculating duration hours, travel transit buffers, Nagpur best food spots, and hidden gems across all configured trip days...
+        </p>
+    </div>
+
+    <!-- MULTI-STEP PLANNER FORM WRAPPER -->
+    <div id="formWrapper" style="max-width: 900px; margin: 0 auto; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 2.5rem; box-shadow: var(--shadow-lg);">
+        <form id="plannerForm">
+
+            <!-- STEP 1 PANEL: BUDGET SLIDER & TRIP DAYS COUNTER -->
+            <div class="planner-step-panel active" id="stepPanel1">
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="font-size: 1.3rem; margin-bottom: 0.4rem; color: #ffffff; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fa-solid fa-wallet" style="color: var(--cyan-primary);"></i> Step 1: Budget Cap & Trip Days Input
+                    </h3>
+                    <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 1.5rem;">Set your maximum target spend per person and enter exact number of trip days.</p>
+
+                    <!-- INTERACTIVE BUDGET SLIDER -->
+                    <div class="slider-container">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <label style="font-size: 0.95rem; font-weight: 600; color: #ffffff; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fa-solid fa-coins" style="color: var(--cyan-primary);"></i> Maximum Budget per Person:
+                            </label>
+                            <span id="budgetValueDisplay" style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--cyan-primary);">
+                                Rs. 1,000
+                            </span>
+                        </div>
+
+                        <input type="range" id="budgetRange" min="100" max="5000" step="100" value="1000" class="range-slider">
+
+                        <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted);">
+                            <span>Rs. 100 (Budget)</span>
+                            <span>Rs. 2,500 (Mid-Range)</span>
+                            <span>Rs. 5,000+ (Luxury / Safari)</span>
+                        </div>
+
+                        <!-- QUICK PRESET PILLS -->
+                        <div class="preset-pills-row">
+                            <span style="font-size: 0.8rem; color: var(--text-muted); align-self: center; margin-right: 0.3rem;">Quick Presets:</span>
+                            <button type="button" class="preset-pill" data-budget="400">Under Rs. 500</button>
+                            <button type="button" class="preset-pill active" data-budget="1000">Rs. 1,000</button>
+                            <button type="button" class="preset-pill" data-budget="2000">Rs. 2,000</button>
+                            <button type="button" class="preset-pill" data-budget="3500">Rs. 3,500</button>
+                            <button type="button" class="preset-pill" data-budget="5000">Rs. 5,000+</button>
+                        </div>
+                    </div>
+
+                    <!-- TRIP DAYS COUNTER (USER ENTERED DAYS) -->
+                    <div style="margin-top: 2rem;">
+                        <label style="font-size: 0.95rem; font-weight: 600; color: #ffffff; margin-bottom: 0.85rem; display: block;">
+                            <i class="fa-solid fa-calendar-days" style="color: var(--cyan-primary);"></i> Enter Total Trip Duration (Number of Days):
+                        </label>
+                        <div style="display: flex; align-items: center; gap: 1rem; background: rgba(11, 15, 25, 0.6); border: 1px solid var(--border-subtle); padding: 1.25rem 1.5rem; border-radius: var(--radius-md); max-width: 500px;">
+                            <button type="button" class="btn btn-outline" style="width: 44px; height: 44px; font-size: 1.3rem; border-radius: 50%; padding: 0; display: flex; align-items: center; justify-content: center;" onclick="adjustDays(-1)">-</button>
+                            
+                            <input type="number" id="numDaysInput" name="num_days" min="1" max="10" value="2" style="width: 90px; text-align: center; font-family: 'Outfit', sans-serif; font-size: 1.8rem; font-weight: 800; background: var(--bg-surface); border: 1px solid var(--cyan-primary); color: #ffffff; border-radius: 8px; padding: 0.2rem 0.5rem; outline: none;">
+                            
+                            <button type="button" class="btn btn-outline" style="width: 44px; height: 44px; font-size: 1.3rem; border-radius: 50%; padding: 0; display: flex; align-items: center; justify-content: center;" onclick="adjustDays(1)">+</button>
+                            
+                            <div style="font-size: 0.92rem; color: #cbd5e1; font-weight: 600;">
+                                <span id="daysUnitLabel" style="color: var(--cyan-primary); font-weight: 800;">2 Days</span> Trip Schedule
+                            </div>
+                        </div>
+                        <p style="color: var(--text-muted); font-size: 0.78rem; margin-top: 0.5rem;">Type or use -/+ buttons to set any number of travel days (1 to 10 days).</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; margin-top: 2.5rem;">
+                    <button type="button" class="btn btn-primary btn-next-step" style="padding: 0.9rem 2.25rem;">
+                        Next: Distance Radius <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 2 PANEL: DISTANCE RADIUS SLIDER -->
+            <div class="planner-step-panel" id="stepPanel2">
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="font-size: 1.3rem; margin-bottom: 0.4rem; color: #ffffff; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fa-solid fa-route" style="color: var(--cyan-primary);"></i> Step 2: Distance Radius Filter
+                    </h3>
+                    <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 1.5rem;">Set your maximum travel radius from central Nagpur (Zero Mile).</p>
+
+                    <!-- INTERACTIVE DISTANCE SLIDER -->
+                    <div class="slider-container">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <label style="font-size: 0.95rem; font-weight: 600; color: #ffffff; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="fa-solid fa-location-crosshairs" style="color: var(--cyan-primary);"></i> Maximum Travel Radius:
+                            </label>
+                            <span id="distanceValueDisplay" style="font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--cyan-primary);">
+                                35 km
+                            </span>
+                        </div>
+
+                        <input type="range" id="distanceRange" min="5" max="85" step="5" value="35" class="range-slider">
+
+                        <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); margin-top: 0.5rem;">
+                            <span>5 km (City Core)</span>
+                            <span>25 km (Suburbs)</span>
+                            <span>55 km (Khekranala)</span>
+                            <span>85 km (Pench Safari)</span>
+                        </div>
+
+                        <div id="distanceZoneDisplay" style="margin-top: 1rem; padding: 0.75rem 1rem; background: rgba(6, 182, 212, 0.08); border-left: 3px solid var(--cyan-primary); border-radius: 6px; font-size: 0.85rem; color: #e2e8f0;">
+                            <i class="fa-solid fa-circle-info"></i> <strong>Selected Zone:</strong> Includes Nagpur City & Surrounding Suburbs (Futala, Deekshabhoomi, Dragon Palace, Gorewada).
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 2.5rem;">
+                    <button type="button" class="btn btn-outline btn-prev-step" style="padding: 0.85rem 1.75rem;">
+                        <i class="fa-solid fa-arrow-left"></i> Previous
+                    </button>
+                    <button type="button" class="btn btn-primary btn-next-step" style="padding: 0.9rem 2.25rem;">
+                        Next: Select 12+ Interests <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 3 PANEL: 12 EXPANDED INTEREST CATEGORIES -->
+            <div class="planner-step-panel" id="stepPanel3">
+                <div style="margin-bottom: 2rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                        <h3 style="font-size: 1.3rem; color: #ffffff; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fa-solid fa-heart" style="color: var(--cyan-primary);"></i> Step 3: Select Your Key Interests
+                        </h3>
+                        <span id="interestCountBadge" style="background: rgba(6, 182, 212, 0.15); color: var(--cyan-primary); border: 1px solid rgba(6, 182, 212, 0.3); font-size: 0.8rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 20px;">
+                            2 Selected
+                        </span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 1.5rem;">Choose one or multiple specific travel preferences to configure vector weights.</p>
+
+                    <!-- 12 EXPANDED INTEREST CHIPS GRID -->
+                    <div class="interest-chips-grid">
+                        <label class="interest-chip selected">
+                            <input type="checkbox" name="interests" value="Nature" checked>
+                            <i class="fa-solid fa-tree interest-chip-icon"></i>
+                            <span class="interest-chip-title">Nature & Lakes</span>
+                        </label>
+
+                        <label class="interest-chip">
+                            <input type="checkbox" name="interests" value="Wildlife">
+                            <i class="fa-solid fa-paw interest-chip-icon"></i>
+                            <span class="interest-chip-title">Wildlife & Safaris</span>
+                        </label>
+
+                        <label class="interest-chip">
+                            <input type="checkbox" name="interests" value="History">
+                            <i class="fa-solid fa-landmark interest-chip-icon"></i>
+                            <span class="interest-chip-title">Heritage & Forts</span>
+                        </label>
+
+                        <label class="interest-chip">
+                            <input type="checkbox" name="interests" value="Spiritual">
+                            <i class="fa-solid fa-place-of-worship interest-chip-icon"></i>
+                            <span class="interest-chip-title">Spiritual Temples</span>
+                        </label>
+
+                        <label class="interest-chip selected">
+                            <input type="checkbox" name="interests" value="Photography" checked>
+                            <i class="fa-solid fa-camera interest-chip-icon"></i>
+                            <span class="interest-chip-title">Photography & Sunsets</span>
+                        </label>
+
+                        <label class="interest-chip">
+                            <input type="checkbox" name="interests" value="Food">
+                            <i class="fa-solid fa-utensils interest-chip-icon"></i>
+                            <span class="interest-chip-title">Saoji & Culinary</span>
+                        </label>
+
+                        <label class="interest-chip">
+                            <input type="checkbox" name="interests" value="Science">
+                            <i class="fa-solid fa-flask interest-chip-icon"></i>
+                            <span class="interest-chip-title">Science & Planetarium</span>
+                        </label>
+
+                        <label class="interest-chip">
+                            <input type="checkbox" name="interests" value="Adventure">
+                            <i class="fa-solid fa-compass interest-chip-icon"></i>
+                            <span class="interest-chip-title">Adventure & Camping</span>
+                        </label>
+
+                        <label class="interest-chip">
+                            <input type="checkbox" name="interests" value="Parks">
+                            <i class="fa-solid fa-leaf interest-chip-icon"></i>
+                            <span class="interest-chip-title">Parks & Gardens</span>
+                        </label>
+
+                        <label class="interest-chip">
+                            <input type="checkbox" name="interests" value="Architecture">
+                            <i class="fa-solid fa-gopuram interest-chip-icon"></i>
+                            <span class="interest-chip-title">Architecture & Monuments</span>
+                        </label>
+
+                        <label class="interest-chip">
+                            <input type="checkbox" name="interests" value="Shopping">
+                            <i class="fa-solid fa-bag-shopping interest-chip-icon"></i>
+                            <span class="interest-chip-title">Shopping & Sweets</span>
+                        </label>
+
+                        <label class="interest-chip">
+                            <input type="checkbox" name="interests" value="Family">
+                            <i class="fa-solid fa-people-roof interest-chip-icon"></i>
+                            <span class="interest-chip-title">Family & Kid-Friendly</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 2.5rem;">
+                    <button type="button" class="btn btn-outline btn-prev-step" style="padding: 0.85rem 1.75rem;">
+                        <i class="fa-solid fa-arrow-left"></i> Previous
+                    </button>
+                    <button type="button" class="btn btn-primary btn-next-step" style="padding: 0.9rem 2.25rem;">
+                        Next: Travel Style <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- STEP 4 PANEL: TRAVEL STYLE & GROUP TYPE -->
+            <div class="planner-step-panel" id="stepPanel4">
+                <div style="margin-bottom: 2rem;">
+                    <h3 style="font-size: 1.3rem; margin-bottom: 0.4rem; color: #ffffff; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="fa-solid fa-user-group" style="color: var(--cyan-primary);"></i> Step 4: Group Type & Experience Style
+                    </h3>
+                    <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 1.5rem;">Specify who is traveling and your preferred experience vibe.</p>
+
+                    <!-- GROUP TYPE -->
+                    <div style="margin-bottom: 2rem;">
+                        <label style="font-size: 0.95rem; font-weight: 600; color: #ffffff; margin-bottom: 0.85rem; display: block;">Select Travel Group Type:</label>
+                        <div class="option-cards-grid">
+                            <label class="option-card">
+                                <input type="radio" name="group_type" value="solo">
+                                <i class="fa-solid fa-user option-icon"></i>
+                                <div class="option-title">Solo Traveler</div>
+                            </label>
+
+                            <label class="option-card selected">
+                                <input type="radio" name="group_type" value="friends" checked>
+                                <i class="fa-solid fa-user-group option-icon"></i>
+                                <div class="option-title">Duo / Friends</div>
+                            </label>
+
+                            <label class="option-card">
+                                <input type="radio" name="group_type" value="family">
+                                <i class="fa-solid fa-house-chimney-user option-icon"></i>
+                                <div class="option-title">Family with Kids</div>
+                            </label>
+
+                            <label class="option-card">
+                                <input type="radio" name="group_type" value="couple">
+                                <i class="fa-solid fa-heart option-icon"></i>
+                                <div class="option-title">Couple</div>
+                            </label>
+
+                            <label class="option-card">
+                                <input type="radio" name="group_type" value="group">
+                                <i class="fa-solid fa-users option-icon"></i>
+                                <div class="option-title">Leisure Group</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- PREFERRED EXPERIENCE -->
+                    <div>
+                        <label style="font-size: 0.95rem; font-weight: 600; color: #ffffff; margin-bottom: 0.85rem; display: block;">Preferred Experience Style:</label>
+                        <div class="option-cards-grid">
+                            <label class="option-card selected">
+                                <input type="radio" name="experience" value="relaxing" checked>
+                                <i class="fa-solid fa-couch option-icon"></i>
+                                <div class="option-title">Relaxing & Leisure</div>
+                            </label>
+
+                            <label class="option-card">
+                                <input type="radio" name="experience" value="exploring">
+                                <i class="fa-solid fa-magnifying-glass-location option-icon"></i>
+                                <div class="option-title">Active Exploring</div>
+                            </label>
+
+                            <label class="option-card">
+                                <input type="radio" name="experience" value="adventure">
+                                <i class="fa-solid fa-mountain option-icon"></i>
+                                <div class="option-title">Thrill & Outdoor</div>
+                            </label>
+
+                            <label class="option-card">
+                                <input type="radio" name="experience" value="cultural">
+                                <i class="fa-solid fa-gopuram option-icon"></i>
+                                <div class="option-title">Cultural & Heritage</div>
+                            </label>
+
+                            <label class="option-card">
+                                <input type="radio" name="experience" value="family">
+                                <i class="fa-solid fa-icons option-icon"></i>
+                                <div class="option-title">Educational & Family</div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; margin-top: 2.5rem;">
+                    <button type="button" class="btn btn-outline btn-prev-step" style="padding: 0.85rem 1.75rem;">
+                        <i class="fa-solid fa-arrow-left"></i> Previous
+                    </button>
+                    <button type="submit" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.1rem;">
+                        <i class="fa-solid fa-bolt"></i> Generate My Nagpur Trip
+                    </button>
+                </div>
+            </div>
+
+            <!-- LIVE PERSONALIZATION PREVIEW WIDGET BAR -->
+            <div class="live-summary-bar">
+                <div class="live-summary-content">
+                    <i class="fa-solid fa-circle-nodes" style="color: var(--cyan-primary); margin-right: 0.4rem;"></i>
+                    <strong>Active Config:</strong> <span id="summaryText">Budget: Rs. 1,000 | Radius: 35 km | 2 Interests | 2 Days</span>
+                </div>
+                <div style="font-size: 0.78rem; color: var(--text-muted);">
+                    Real-time AI Match Profile
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/planner.js') }}"></script>
+{% endblock %}

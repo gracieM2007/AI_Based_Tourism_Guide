@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Your Personalised Nagpur Recommendations — TripMitra AI{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 3.5rem; padding-bottom: 6rem;">
+
+    <!-- NO DATA FALLBACK -->
+    <div id="noDataState" style="display: none; text-align: center; padding: 5rem 2rem; background: var(--bg-surface); border-radius: 16px; border: 1px solid var(--border-subtle); max-width: 650px; margin: 2rem auto;">
+        <div style="font-size: 3rem; color: var(--cyan-primary); margin-bottom: 1rem;"><i class="fa-solid fa-compass"></i></div>
+        <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem;">No Recommendation Configured</h2>
+        <p style="color: var(--text-secondary); max-width: 480px; margin: 0 auto 2rem;">
+            You haven't configured your travel preferences yet. Please fill out the trip planner to generate custom recommendations.
+        </p>
+        <a href="/plan" class="btn btn-primary" style="padding: 0.9rem 2.25rem;">
+            <i class="fa-solid fa-sliders"></i> Configure Preferences Now
+        </a>
+    </div>
+
+    <!-- MAIN RESULTS CONTAINER -->
+    <div id="resultsContainer" style="display: block;">
+        
+        <!-- TOP DASHBOARD BANNER -->
+        <div style="background: linear-gradient(135deg, var(--bg-surface), #0f192c); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 2.25rem; margin-bottom: 2.5rem; box-shadow: var(--shadow-lg);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <span class="section-tag"><i class="fa-solid fa-brain"></i> AI PERSONALISATION OUTPUT</span>
+                    <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.4rem;">
+                        Your Nagpur Trip, Personalized
+                    </h1>
+                    <p id="prefSummaryText" style="color: var(--text-secondary); font-size: 0.95rem;">
+                        Processing recommendation weights...
+                    </p>
+                </div>
+                <a href="/plan" class="btn btn-outline" style="padding: 0.6rem 1.25rem; font-size: 0.88rem;">
+                    <i class="fa-solid fa-sliders"></i> Modify Preferences
+                </a>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; margin-top: 1.75rem;">
+                <div style="background: rgba(11, 15, 25, 0.7); border: 1px solid var(--border-subtle); padding: 1.1rem; border-radius: 12px; text-align: center;">
+                    <div id="statAnalyzed" style="font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; color: var(--cyan-primary);">20</div>
+                    <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem;">Destinations Analyzed</div>
+                </div>
+
+                <div style="background: rgba(11, 15, 25, 0.7); border: 1px solid var(--border-subtle); padding: 1.1rem; border-radius: 12px; text-align: center;">
+                    <div id="statTopScore" style="font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; color: var(--emerald-success);">95%</div>
+                    <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem;">Top Match Score</div>
+                </div>
+
+                <div style="background: rgba(11, 15, 25, 0.7); border: 1px solid var(--border-subtle); padding: 1.1rem; border-radius: 12px; text-align: center;">
+                    <div id="statAvgScore" style="font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; color: var(--indigo-accent);">88%</div>
+                    <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem;">Average Match Score</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEGMENTED VIEW NAVIGATION TABS -->
+        <div class="results-tab-nav">
+            <button class="results-tab-btn active" data-tab="recommendations">
+                <i class="fa-solid fa-star"></i> Top Recommendations
+            </button>
+            <button class="results-tab-btn" data-tab="itinerary">
+                <i class="fa-solid fa-calendar-days"></i> Detailed Multi-Day Itinerary
+            </button>
+            <button class="results-tab-btn" data-tab="breakdown">
+                <i class="fa-solid fa-chart-pie"></i> AI Vector Breakdown
+            </button>
+        </div>
+
+        <!-- TAB 1: RECOMMENDATIONS -->
+        <div class="results-tab-panel active" id="tabRecommendations">
+            <!-- SPOTLIGHT TOP RECOMMENDATION (#1) -->
+            <div style="margin-bottom: 3.5rem;">
+                <div class="section-header" style="margin-bottom: 1.25rem;">
+                    <span class="section-tag"><i class="fa-solid fa-crown"></i> TOP RANKED SELECTION</span>
+                    <h2 class="section-title">Spotlight Recommendation</h2>
+                </div>
+                
+                <div id="spotlightContainer">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+
+            <!-- REMAINING RECOMMENDATIONS (#2 to #5) -->
+            <div>
+                <div class="section-header" style="margin-bottom: 1.25rem;">
+                    <span class="section-tag"><i class="fa-solid fa-list-ol"></i> ADDITIONAL MATCHES</span>
+                    <h2 class="section-title">Top Recommended Places</h2>
+                </div>
+
+                <div id="recommendationsGrid" class="grid-3">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: DETAILED MULTI-DAY ITINERARY -->
+        <div class="results-tab-panel" id="tabItinerary">
+            <div class="section-header" style="margin-bottom: 1.5rem;">
+                <span class="section-tag"><i class="fa-solid fa-route"></i> TIME-SLOTTED SCHEDULE</span>
+                <h2 class="section-title">Detailed Multi-Day Travel Timetable</h2>
+                <p style="color: var(--text-secondary);">Realistic daily schedule with 5 activity time slots per day</p>
+            </div>
+
+            <!-- DAY FILTER TABS -->
+            <div id="dayFilterNav" class="day-filter-nav">
+                <!-- Dynamic Day Tabs Injected via JS -->
+            </div>
+
+            <div id="itineraryTimelineContainer" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 2.25rem;">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+
+        <!-- TAB 3: AI VECTOR BREAKDOWN -->
+        <div class="results-tab-panel" id="tabBreakdown">
+            <div class="section-header" style="margin-bottom: 1.5rem;">
+                <span class="section-tag"><i class="fa-solid fa-microchip"></i> VECTOR ALGORITHM BREAKDOWN</span>
+                <h2 class="section-title">Recommendation Scoring Rationale</h2>
+            </div>
+
+            <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 2.25rem;">
+                <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: #ffffff;">Mathematical Multi-Factor Formula</h3>
+                <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6;">
+                    Our engine processes your preferences using a weighted content-based similarity model:
+                </p>
+                <div style="background: rgba(11,15,25,0.7); border: 1px solid var(--cyan-primary); padding: 1.25rem; border-radius: 12px; font-family: monospace; color: var(--cyan-primary); margin-bottom: 2rem;">
+                    Final Score = (Interest Match * 0.35) + (Budget Match * 0.20) + (Duration Match * 0.15) + (Experience Match * 0.10) + (Group Compatibility * 0.10) + (Rating * 0.10) * Distance Multiplier
+                </div>
+
+                <div id="vectorBreakdownContent">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/results.js') }}"></script>
+{% endblock %}

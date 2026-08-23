@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TripMitra AI — Intelligent Nagpur Tourism & Trip Recommendation Platform{% endblock %}</title>
+    <meta name="description" content="TripMitra AI: Personalized travel recommendation engine and intelligent trip planning platform for Nagpur City.">
+    <!-- Font Awesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- NAVIGATION BAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="brand-logo">
+                <i class="fa-solid fa-compass"></i>
+                TripMitra AI
+                <span class="brand-tag">Nagpur Edition</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">Home</a></li>
+                <li><a href="/explore" class="nav-link {% if request.path == '/explore' %}active{% endif %}">Explore</a></li>
+                <li><a href="/food" class="nav-link {% if request.path == '/food' %}active{% endif %}">Food & Dining</a></li>
+                <li><a href="/plan" class="nav-link {% if request.path == '/plan' %}active{% endif %}">Plan Trip</a></li>
+                <li><a href="/results" class="nav-link {% if request.path == '/results' %}active{% endif %}">Recommendations</a></li>
+                <li><a href="/coming-soon" class="nav-link {% if request.path == '/coming-soon' %}active{% endif %}">Coming Soon</a></li>
+            </ul>
+            <a href="/plan" class="btn btn-primary">
+                <i class="fa-solid fa-sliders"></i> Plan My Trip
+            </a>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT BLOCK -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- DESTINATION DETAILS MODAL -->
+    <div class="modal-overlay" id="detailsModal">
+        <div class="modal-box">
+            <button class="modal-close" id="modalCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+            <div id="modalBodyContent">
+                <!-- Dynamic Content Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-content">
+            <div>
+                <h4 style="color: #ffffff; margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-compass" style="color: var(--cyan-primary);"></i> TripMitra AI Platform
+                </h4>
+                <p style="font-size: 0.85rem;">Intelligent Travel Recommendation System • Nagpur City Prototype</p>
+            </div>
+            <div>
+                <p style="font-size: 0.85rem;">Powered by Content-Based Vector Preference Matching Algorithm.</p>
+                <p style="font-size: 0.8rem; margin-top: 0.2rem; color: var(--text-muted);">Current Demo Scope: Nagpur City & Surrounding Regional Destinations</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+{% block title %}Nagpur Culinary & Food Guide — TripMitra AI{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 3.5rem; padding-bottom: 6rem;">
+    
+    <!-- HEADER -->
+    <div class="section-header" style="text-align: center;">
+        <span class="section-tag"><i class="fa-solid fa-utensils"></i> NAGPUR CULINARY & FOOD INTELLIGENCE</span>
+        <h1 class="section-title">Famous Restaurants, Saoji Curries & Street Food</h1>
+        <p style="color: var(--text-secondary); max-width: 680px; margin: 0.5rem auto 0;">
+            Explore Nagpur's legendary Saoji joints, fiery Tarri Poha breakfast spots, Orange Barfi sweet houses, and lakeside street food hubs.
+        </p>
+    </div>
+
+    <!-- FOOD CATEGORY FILTER TABS -->
+    <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem;">
+        <button class="preset-pill active" onclick="filterFoodCategory('all')"><i class="fa-solid fa-layer-group"></i> All Food Spots</button>
+        <button class="preset-pill" onclick="filterFoodCategory('saoji')"><i class="fa-solid fa-pepper-hot"></i> Spicy Saoji Joints</button>
+        <button class="preset-pill" onclick="filterFoodCategory('poha')"><i class="fa-solid fa-bowl-rice"></i> Iconic Tarri Poha</button>
+        <button class="preset-pill" onclick="filterFoodCategory('street')"><i class="fa-solid fa-store"></i> Street Food Hubs</button>
+        <button class="preset-pill" onclick="filterFoodCategory('sweets')"><i class="fa-solid fa-candy-cane"></i> Orange Barfi & Sweets</button>
+    </div>
+
+    <!-- FOOD CARDS GRID -->
+    <div id="foodCardsGrid" class="grid-3">
+        
+        <!-- ITEM 1: KESHAV TARRI POHA -->
+        <div class="card food-card-item" id="food-keshav-poha" data-category="poha">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80" alt="Keshav Tarri Poha" class="card-img">
+                <span class="card-category-badge"><i class="fa-solid fa-bowl-rice"></i> Iconic Breakfast</span>
+                <span class="match-badge" style="background: linear-gradient(135deg, var(--amber-warning), #d97706);"><i class="fa-solid fa-star"></i> 4.8 / 5.0</span>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">Keshav Tarri Poha & Ramji Shamji Centre</h3>
+                <p class="card-desc">Nagpur's most famous breakfast hub. Steamed rice flakes served floating in fiery black chickpea gravy (Tarri), raw onions, and roasted samosas.</p>
+
+                <div class="tag-pills">
+                    <span class="tag-pill">Tarri Poha</span>
+                    <span class="tag-pill">Black Chickpea Gravy</span>
+                    <span class="tag-pill">Samosa Jalebi</span>
+                </div>
+
+                <div class="rationale-box" style="border-left-color: var(--amber-warning);">
+                    <div class="rationale-header" style="color: var(--amber-warning);"><i class="fa-solid fa-utensils"></i> Must-Try Speciality</div>
+                    <div>Extra Tarri Poha with crispy fried onions & cutting Masala Chai.</div>
+                </div>
+
+                <div class="card-meta">
+                    <div class="meta-item"><i class="fa-solid fa-wallet"></i> Rs. 80 / person</div>
+                    <div class="meta-item"><i class="fa-solid fa-location-dot"></i> Sitabuldi, Nagpur</div>
+                </div>
+
+                <a href="https://www.google.com/maps/search/?api=1&query=21.1400,79.0800" target="_blank" class="btn btn-primary" style="width: 100%; margin-top: 1.25rem;">
+                    <i class="fa-solid fa-map-location-dot"></i> View on Google Maps
+                </a>
+            </div>
+        </div>
+
+        <!-- ITEM 2: SHANKAR NAGAR SAOJI -->
+        <div class="card food-card-item" id="food-saoji-joint" data-category="saoji">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1200&q=80" alt="Saoji Curry House" class="card-img">
+                <span class="card-category-badge"><i class="fa-solid fa-pepper-hot"></i> Saoji Specialist</span>
+                <span class="match-badge" style="background: linear-gradient(135deg, var(--amber-warning), #d97706);"><i class="fa-solid fa-star"></i> 4.9 / 5.0</span>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">Authentic Shankar Nagar Saoji Bhojanalaya</h3>
+                <p class="card-desc">The ultimate destination for authentic Saoji cuisine. Features slow-cooked spicy Mutton/Chicken Saoji, Patodi Rassa, Jowar Bhakri, and fresh buttermilk.</p>
+
+                <div class="tag-pills">
+                    <span class="tag-pill">Saoji Mutton</span>
+                    <span class="tag-pill">Patodi Rassa</span>
+                    <span class="tag-pill">Jowar Bhakri</span>
+                </div>
+
+                <div class="rationale-box" style="border-left-color: var(--amber-warning);">
+                    <div class="rationale-header" style="color: var(--amber-warning);"><i class="fa-solid fa-utensils"></i> Must-Try Speciality</div>
+                    <div>Special Saoji Thali with extra spice gravy & cold Mattha buttermilk.</div>
+                </div>
+
+                <div class="card-meta">
+                    <div class="meta-item"><i class="fa-solid fa-wallet"></i> Rs. 350 / person</div>
+                    <div class="meta-item"><i class="fa-solid fa-location-dot"></i> Shankar Nagar, Nagpur</div>
+                </div>
+
+                <a href="https://www.google.com/maps/search/?api=1&query=21.1340,79.0680" target="_blank" class="btn btn-primary" style="width: 100%; margin-top: 1.25rem;">
+                    <i class="fa-solid fa-map-location-dot"></i> View on Google Maps
+                </a>
+            </div>
+        </div>
+
+        <!-- ITEM 3: HALDIRAM'S ORANGE BARFI -->
+        <div class="card food-card-item" id="food-haldiram-shankar" data-category="sweets">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&w=1200&q=80" alt="Haldiram Orange Barfi" class="card-img">
+                <span class="card-category-badge"><i class="fa-solid fa-candy-cane"></i> Heritage Sweets</span>
+                <span class="match-badge" style="background: linear-gradient(135deg, var(--amber-warning), #d97706);"><i class="fa-solid fa-star"></i> 4.8 / 5.0</span>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">Haldiram's Flagship House & Santra Barfi Hub</h3>
+                <p class="card-desc">Origin city of Haldiram's. World-famous for signature Nagpur Orange Barfi made with pure mawa and fresh orange pulp, plus Maharashtrian sweets.</p>
+
+                <div class="tag-pills">
+                    <span class="tag-pill">Orange Barfi</span>
+                    <span class="tag-pill">Kaju Katli</span>
+                    <span class="tag-pill">Kothimbir Vadi</span>
+                </div>
+
+                <div class="rationale-box" style="border-left-color: var(--amber-warning);">
+                    <div class="rationale-header" style="color: var(--amber-warning);"><i class="fa-solid fa-utensils"></i> Must-Try Speciality</div>
+                    <div>Nagpur Santra Burfi gift boxes & fresh Santra Juice.</div>
+                </div>
+
+                <div class="card-meta">
+                    <div class="meta-item"><i class="fa-solid fa-wallet"></i> Rs. 250 / person</div>
+                    <div class="meta-item"><i class="fa-solid fa-location-dot"></i> Wardha Road / Shankar Nagar</div>
+                </div>
+
+                <a href="https://www.google.com/maps/search/?api=1&query=21.1340,79.0680" target="_blank" class="btn btn-primary" style="width: 100%; margin-top: 1.25rem;">
+                    <i class="fa-solid fa-map-location-dot"></i> View on Google Maps
+                </a>
+            </div>
+        </div>
+
+        <!-- ITEM 4: FUTALA STREET FOOD & KULFI -->
+        <div class="card food-card-item" id="food-futala-kulfi" data-category="street">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="Futala Street Food" class="card-img">
+                <span class="card-category-badge"><i class="fa-solid fa-store"></i> Waterfront Street Food</span>
+                <span class="match-badge" style="background: linear-gradient(135deg, var(--amber-warning), #d97706);"><i class="fa-solid fa-star"></i> 4.7 / 5.0</span>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">Futala Lake Promenade Food Street</h3>
+                <p class="card-desc">Nagpur's favorite evening hangout. Lined with stalls serving clay-pot Matka Kulfi, spicy Pav Bhaji, Bhel Puri, Momos, and Kulhad Tea under lake sunsets.</p>
+
+                <div class="tag-pills">
+                    <span class="tag-pill">Matka Kulfi</span>
+                    <span class="tag-pill">Pav Bhaji</span>
+                    <span class="tag-pill">Kulhad Chai</span>
+                </div>
+
+                <div class="rationale-box" style="border-left-color: var(--amber-warning);">
+                    <div class="rationale-header" style="color: var(--amber-warning);"><i class="fa-solid fa-utensils"></i> Must-Try Speciality</div>
+                    <div>Malai Matka Kulfi while watching sunset over Futala lake.</div>
+                </div>
+
+                <div class="card-meta">
+                    <div class="meta-item"><i class="fa-solid fa-wallet"></i> Rs. 150 / person</div>
+                    <div class="meta-item"><i class="fa-solid fa-location-dot"></i> Futala Lake, Nagpur</div>
+                </div>
+
+                <a href="https://www.google.com/maps/search/?api=1&query=21.1539,79.0475" target="_blank" class="btn btn-primary" style="width: 100%; margin-top: 1.25rem;">
+                    <i class="fa-solid fa-map-location-dot"></i> View on Google Maps
+                </a>
+            </div>
+        </div>
+
+        <!-- ITEM 5: DHARAMPETH STREET FOOD -->
+        <div class="card food-card-item" id="food-dharampeth-street" data-category="street">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=80" alt="Dharampeth Food Street" class="card-img">
+                <span class="card-category-badge"><i class="fa-solid fa-store"></i> Food Street</span>
+                <span class="match-badge" style="background: linear-gradient(135deg, var(--amber-warning), #d97706);"><i class="fa-solid fa-star"></i> 4.6 / 5.0</span>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">Dharampeth Evening Snack Market</h3>
+                <p class="card-desc">Bustling street food lane featuring famous Bombay Sandwich stalls, Dabeli, Pani Puri, Chinese bhel, and thick mango milkshakes.</p>
+
+                <div class="tag-pills">
+                    <span class="tag-pill">Pani Puri</span>
+                    <span class="tag-pill">Bombay Sandwich</span>
+                    <span class="tag-pill">Mango Shake</span>
+                </div>
+
+                <div class="rationale-box" style="border-left-color: var(--amber-warning);">
+                    <div class="rationale-header" style="color: var(--amber-warning);"><i class="fa-solid fa-utensils"></i> Must-Try Speciality</div>
+                    <div>Cheese Grilled Toast Sandwich & Badam Milk.</div>
+                </div>
+
+                <div class="card-meta">
+                    <div class="meta-item"><i class="fa-solid fa-wallet"></i> Rs. 120 / person</div>
+                    <div class="meta-item"><i class="fa-solid fa-location-dot"></i> Dharampeth, Nagpur</div>
+                </div>
+
+                <a href="https://www.google.com/maps/search/?api=1&query=21.1400,79.0600" target="_blank" class="btn btn-primary" style="width: 100%; margin-top: 1.25rem;">
+                    <i class="fa-solid fa-map-location-dot"></i> View on Google Maps
+                </a>
+            </div>
+        </div>
+
+        <!-- ITEM 6: CIVIL LINES CAFE -->
+        <div class="card food-card-item" id="food-civil-lines-cafe" data-category="street">
+            <div class="card-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=80" alt="Civil Lines Cafe" class="card-img">
+                <span class="card-category-badge"><i class="fa-solid fa-mug-hot"></i> Heritage Cafe</span>
+                <span class="match-badge" style="background: linear-gradient(135deg, var(--amber-warning), #d97706);"><i class="fa-solid fa-star"></i> 4.7 / 5.0</span>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">Civil Lines Heritage Residency Bakery</h3>
+                <p class="card-desc">Colonial-style heritage cafe in Civil Lines surrounded by banyan trees. Serving artisan coffee, freshly baked croissants, and English breakfasts.</p>
+
+                <div class="tag-pills">
+                    <span class="tag-pill">Artisan Coffee</span>
+                    <span class="tag-pill">Croissant</span>
+                    <span class="tag-pill">Heritage Ambience</span>
+                </div>
+
+                <div class="rationale-box" style="border-left-color: var(--amber-warning);">
+                    <div class="rationale-header" style="color: var(--amber-warning);"><i class="fa-solid fa-utensils"></i> Must-Try Speciality</div>
+                    <div>Cold Brew Coffee with Almond Croissant under tree canopies.</div>
+                </div>
+
+                <div class="card-meta">
+                    <div class="meta-item"><i class="fa-solid fa-wallet"></i> Rs. 300 / person</div>
+                    <div class="meta-item"><i class="fa-solid fa-location-dot"></i> Civil Lines, Nagpur</div>
+                </div>
+
+                <a href="https://www.google.com/maps/search/?api=1&query=21.1540,79.0770" target="_blank" class="btn btn-primary" style="width: 100%; margin-top: 1.25rem;">
+                    <i class="fa-solid fa-map-location-dot"></i> View on Google Maps
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function filterFoodCategory(cat) {
+    document.querySelectorAll('.preset-pill').forEach(btn => btn.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+
+    document.querySelectorAll('.food-card-item').forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-category') === cat) {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+// Auto scroll to target hash item on land
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.hash) {
+        const target = document.querySelector(window.location.hash);
+        if (target) {
+            target.style.border = '2px solid var(--cyan-primary)';
+            target.style.boxShadow = '0 0 30px var(--cyan-glow)';
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% block title %}TripMitra AI — Intelligent Nagpur Travel & Personalised Recommendation{% endblock %}
+
+{% block content %}
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-container">
+        <div class="hero-eyebrow">
+            <i class="fa-solid fa-brain"></i> AI-POWERED NAGPUR DISCOVERY
+        </div>
+        <h1 class="hero-title">
+            Discover Nagpur with <span>TripMitra AI</span> Personalised Intelligence
+        </h1>
+        <p class="hero-subtitle">
+            An intelligent trip planning system that transforms your travel preferences, budget, and schedule into
+            tailored destination recommendations and day-wise itineraries across Nagpur City.
+        </p>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="/plan" class="btn btn-primary" style="padding: 1rem 2.25rem; font-size: 1.05rem;">
+                <i class="fa-solid fa-sliders"></i> Plan Your Trip
+            </a>
+            <a href="/explore" class="btn btn-outline" style="padding: 1rem 2.25rem; font-size: 1.05rem;">
+                <i class="fa-solid fa-binoculars"></i> Explore Nagpur
+            </a>
+        </div>
+
+        <!-- QUICK SEARCH / PLANNING INTERACTION WIDGET -->
+        <div class="quick-planner-card">
+            <h3
+                style="font-size: 1.15rem; margin-bottom: 1rem; color: #ffffff; display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fa-solid fa-location-crosshairs" style="color: var(--cyan-primary);"></i> Where should we take
+                you in Nagpur?
+            </h3>
+            <form action="/plan" method="GET">
+                <div class="quick-grid">
+                    <div>
+                        <label class="field-label"><i class="fa-solid fa-wallet"></i> Estimated Budget</label>
+                        <select class="select-input" name="budget">
+                            <option value="under_500">Under Rs. 500</option>
+                            <option value="500_1000">Rs. 500 – Rs. 1000</option>
+                            <option value="1000_2000">Rs. 1000 – Rs. 2000</option>
+                            <option value="above_2000">Rs. 2000+</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="field-label"><i class="fa-solid fa-clock"></i> Duration</label>
+                        <select class="select-input" name="duration">
+                            <option value="half_day">Half Day (4 hrs)</option>
+                            <option value="1_day" selected>1 Day Excursion</option>
+                            <option value="2_days">2 Days Weekend</option>
+                            <option value="3_days">3+ Days Circuit</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="field-label"><i class="fa-solid fa-heart"></i> Primary Interest</label>
+                        <select class="select-input" name="interest">
+                            <option value="Nature">Nature & Lakes</option>
+                            <option value="History">Heritage & Forts</option>
+                            <option value="Spiritual">Spiritual Architecture</option>
+                            <option value="Adventure">Safari & Adventure</option>
+                            <option value="Food">Saoji & Culinary</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; height: 46px;">
+                            <i class="fa-solid fa-magnifying-glass"></i> Find Recommendations
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- PERSONALIZED TRAVEL PLANNING PIPELINE -->
+<section class="container" style="margin: 5rem auto;">
+    <div class="section-header" style="text-align: center;">
+        <span class="section-tag">INTELLIGENT WORKFLOW</span>
+        <h2 class="section-title">Personalized Travel Planning Pipeline</h2>
+        <p style="color: var(--text-secondary); max-width: 650px; margin: 0.5rem auto 0;">
+            Our Content-Based Recommendation Engine processes your travel inputs through a four-stage algorithmic vector
+            pipeline.
+        </p>
+    </div>
+
+    <div class="pipeline-grid">
+        <div class="pipeline-step">
+            <div class="step-icon-wrap"><i class="fa-solid fa-user-gear"></i></div>
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">1. Your Preferences</h3>
+            <p style="color: var(--text-secondary); font-size: 0.88rem;">Select interest categories, budget limit,
+                duration, and group style.</p>
+        </div>
+
+        <div class="pipeline-step">
+            <div class="step-icon-wrap"><i class="fa-solid fa-gears"></i></div>
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">2. AI Vector Engine</h3>
+            <p style="color: var(--text-secondary); font-size: 0.88rem;">Calculates weighted similarity scores against
+                Nagpur feature matrices.</p>
+        </div>
+
+        <div class="pipeline-step">
+            <div class="step-icon-wrap"><i class="fa-solid fa-award"></i></div>
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">3. Personalized Places</h3>
+            <p style="color: var(--text-secondary); font-size: 0.88rem;">Ranks top 5 Nagpur spots with explicit match %
+                and rationale explanations.</p>
+        </div>
+
+        <div class="pipeline-step">
+            <div class="step-icon-wrap"><i class="fa-solid fa-route"></i></div>
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">4. Smart Itinerary</h3>
+            <p style="color: var(--text-secondary); font-size: 0.88rem;">Generates a time-slotted day-wise schedule
+                optimized for your trip duration.</p>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURED NAGPUR DESTINATIONS SHOWCASE -->
+<section id="featured" class="container" style="margin: 5rem auto;">
+    <div class="section-header"
+        style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+        <div>
+            <span class="section-tag">CURATED NAGPUR DATASET</span>
+            <h2 class="section-title">Explore Nagpur Destinations</h2>
+            <p style="color: var(--text-secondary);">Authentic local spots stored in SQLite database</p>
+        </div>
+        <a href="/explore" class="btn btn-outline">
+            <i class="fa-solid fa-border-all"></i> View All 20 Places
+        </a>
+    </div>
+
+    <div class="grid-3">
+        {% for dest in featured_destinations %}
+        <div class="card">
+            <div class="card-img-wrapper">
+                <img src="{{ dest.image_url }}" alt="{{ dest.name }}" class="card-img">
+                <span class="card-category-badge"><i class="fa-solid fa-tag"></i> {{ dest.category }}</span>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">{{ dest.name }}</h3>
+                <p class="card-desc">{{ dest.description }}</p>
+                <div class="card-meta">
+                    <div class="meta-item"><i class="fa-solid fa-wallet"></i> Rs. {{ dest.estimated_budget }}</div>
+                    <div class="meta-item"><i class="fa-solid fa-clock"></i> {{ dest.ideal_duration_hours }}h</div>
+                    <div class="meta-item"><i class="fa-solid fa-star" style="color: var(--amber-warning);"></i> {{
+                        dest.rating }}</div>
+                </div>
+                <button class="btn btn-secondary" style="width: 100%; margin-top: 1.25rem;"
+                    onclick="openDestinationModal({{ dest.id }})">
+                    <i class="fa-solid fa-circle-info"></i> View Details
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- WHY TRIPMITRA AI? -->
+<section class="container" style="margin: 5rem auto 7rem;">
+    <div class="section-header" style="text-align: center;">
+        <span class="section-tag">PLATFORM BENEFITS</span>
+        <h2 class="section-title">Why Choose TripMitra AI?</h2>
+    </div>
+
+    <div class="pipeline-grid">
+        <div class="pipeline-step" style="text-align: left;">
+            <div class="step-icon-wrap" style="margin: 0 0 1rem 0;"><i class="fa-solid fa-bullseye"></i></div>
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">Personalized Recommendations</h3>
+            <p style="color: var(--text-secondary); font-size: 0.88rem;">Matches destinations directly to your unique
+                interest profile rather than showing static popular lists.</p>
+        </div>
+
+        <div class="pipeline-step" style="text-align: left;">
+            <div class="step-icon-wrap" style="margin: 0 0 1rem 0;"><i class="fa-solid fa-scale-balanced"></i></div>
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">Preference-Based Matching</h3>
+            <p style="color: var(--text-secondary); font-size: 0.88rem;">Multi-factor scoring formula weighs budget,
+                time duration, group type, and distance radius simultaneously.</p>
+        </div>
+
+        <div class="pipeline-step" style="text-align: left;">
+            <div class="step-icon-wrap" style="margin: 0 0 1rem 0;"><i class="fa-solid fa-calendar-check"></i></div>
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">Smart Itinerary Planning</h3>
+            <p style="color: var(--text-secondary); font-size: 0.88rem;">Organizes recommended spots into realistic
+                morning, mid-day, and evening activity time slots.</p>
+        </div>
+
+        <div class="pipeline-step" style="text-align: left;">
+            <div class="step-icon-wrap" style="margin: 0 0 1rem 0;"><i class="fa-solid fa-map-location-dot"></i></div>
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.4rem;">Nagpur-Focused Discovery</h3>
+            <p style="color: var(--text-secondary); font-size: 0.88rem;">Deep local dataset built specifically for
+                Nagpur heritage, lakes, nature reserves, and food culture.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

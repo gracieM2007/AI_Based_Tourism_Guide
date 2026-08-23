@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Coming Soon — TripMitra AI Product Roadmap{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 4rem; padding-bottom: 7rem;">
+    <!-- HERO HEADER -->
+    <div style="text-align: center; max-width: 800px; margin: 0 auto 4rem;">
+        <span class="section-tag"><i class="fa-solid fa-rocket"></i> PLATFORM ROADMAP (100% MILESTONE)</span>
+        <h1 style="font-size: 3rem; font-weight: 800; line-height: 1.15; margin-bottom: 1rem;">
+            The Next Generation of TripMitra AI is Coming.
+        </h1>
+        <p style="color: var(--text-secondary); font-size: 1.15rem; line-height: 1.6;">
+            More intelligent travel discovery, richer real-time data, and personalized planning are on the way for the 100% final version.
+        </p>
+    </div>
+
+    <!-- 10 FEATURE ROADMAP CARDS -->
+    <div class="roadmap-grid">
+        
+        <!-- 1. EXPLORE INDIA -->
+        <div class="roadmap-card">
+            <div class="roadmap-icon"><i class="fa-solid fa-earth-asia"></i></div>
+            <span class="roadmap-badge">Phase 2 Scope</span>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: #ffffff;">1. Explore India</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">
+                Expand AI recommendation algorithms beyond Nagpur to encompass tourist destinations across all Indian states and union territories.
+            </p>
+        </div>
+
+        <!-- 2. LIVE WEATHER INTELLIGENCE -->
+        <div class="roadmap-card">
+            <div class="roadmap-icon"><i class="fa-solid fa-cloud-sun"></i></div>
+            <span class="roadmap-badge">API Integration</span>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: #ffffff;">2. Live Weather Intelligence</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">
+                Integrate real-time OpenWeather API forecasts to dynamically adjust indoor vs. outdoor recommendations based on rain, heat, and seasonal conditions.
+            </p>
+        </div>
+
+        <!-- 3. SMART MAPS & NAVIGATION -->
+        <div class="roadmap-card">
+            <div class="roadmap-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+            <span class="roadmap-badge">Navigation</span>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: #ffffff;">3. Smart Maps & Navigation</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">
+                Add Google Maps Directions API, precise distance matrix computations, turn-by-turn route planning, and interactive spatial overlays.
+            </p>
+        </div>
+
+        <!-- 4. AI TRAVEL ASSISTANT -->
+        <div class="roadmap-card">
+            <div class="roadmap-icon"><i class="fa-solid fa-robot"></i></div>
+            <span class="roadmap-badge">LLM Module</span>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: #ffffff;">4. AI Travel Assistant</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">
+                A conversational natural language chatbot interface allowing travelers to ask questions, modify itineraries, and request custom local tips.
+            </p>
+        </div>
+
+        <!-- 5. HOTEL & STAY RECOMMENDATIONS -->
+        <div class="roadmap-card">
+            <div class="roadmap-icon"><i class="fa-solid fa-hotel"></i></div>
+            <span class="roadmap-badge">Stays</span>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: #ffffff;">5. Hotel & Stay Recommendations</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">
+                Recommend suitable hotels, resorts, and homestays matched directly to your selected budget tier and proximity to top recommended spots.
+            </p>
+        </div>
+
+        <!-- 6. TRAVEL HISTORY & PROFILES -->
+        <div class="roadmap-card">
+            <div class="roadmap-icon"><i class="fa-solid fa-user-gear"></i></div>
+            <span class="roadmap-badge">Personalization</span>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: #ffffff;">6. Travel History & Profiles</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">
+                User accounts, saved trip history, and persistent preference profiles for deeper longitudinal machine learning personalization.
+            </p>
+        </div>
+
+        <!-- 7. ADAPTIVE RECOMMENDATIONS -->
+        <div class="roadmap-card">
+            <div class="roadmap-icon"><i class="fa-solid fa-sliders"></i></div>
+            <span class="roadmap-badge">Feedback Loop</span>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: #ffffff;">7. Adaptive Recommendations</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">
+                Utilize post-visit ratings, user feedback, and collaborative filtering to continuously refine feature vector weights over time.
+            </p>
+        </div>
+
+        <!-- 8. BOOKING INTEGRATION -->
+        <div class="roadmap-card">
+            <div class="roadmap-icon"><i class="fa-solid fa-ticket"></i></div>
+            <span class="roadmap-badge">Affiliate API</span>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: #ffffff;">8. Booking Integration</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">
+                Connect travel planning directly with hotel booking platforms, cab transport aggregators, and event ticket booking services.
+            </p>
+        </div>
+
+        <!-- 9. MULTILINGUAL EXPERIENCE -->
+        <div class="roadmap-card">
+            <div class="roadmap-icon"><i class="fa-solid fa-language"></i></div>
+            <span class="roadmap-badge">Localization</span>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: #ffffff;">9. Multilingual Experience</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">
+                Comprehensive localization support for major Indian languages including Marathi, Hindi, Tamil, Telugu, and Bengali.
+            </p>
+        </div>
+
+        <!-- 10. ADVANCED SMART ITINERARY -->
+        <div class="roadmap-card">
+            <div class="roadmap-icon"><i class="fa-solid fa-route"></i></div>
+            <span class="roadmap-badge">Optimization</span>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: #ffffff;">10. Advanced Smart Itinerary</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5;">
+                Automated graph-based route optimization minimizing travel time, traffic delays, and opening hour constraints between destinations.
+            </p>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
