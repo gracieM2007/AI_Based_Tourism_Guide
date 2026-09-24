@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for, s
 from database import get_db_connection, init_db_schema
 from recommendation_engine import get_recommendations
 from itinerary_generator import generate_personalized_itinerary
+from weather_service import get_nagpur_live_weather
 
 app = Flask(__name__)
 app.secret_key = 'tripmitra_ai_nagpur_prototype_secret_key'
@@ -71,6 +72,15 @@ def get_destination_by_id(dest_id):
         return jsonify({"status": "error", "message": "Destination not found"}), 404
     return jsonify({"status": "success", "destination": dict(row)})
 
+@app.route('/api/weather', methods=['GET'])
+def get_weather_api():
+    """API Endpoint: Returns real-time Nagpur weather metrics, sunset time, and tourist advisory."""
+    weather_data = get_nagpur_live_weather()
+    return jsonify({
+        "status": "success",
+        "weather": weather_data
+    })
+
 @app.route('/api/recommend', methods=['POST'])
 def recommend_api():
     """API Endpoint: Processes user preferences, executes content-based recommendation logic, logs query, and returns top picks."""
@@ -126,14 +136,13 @@ def recommend_api():
         conn.close()
 
         itinerary = generate_personalized_itinerary(top_recommendations, num_days=num_days, user_prefs=user_prefs)
+        weather_info = get_nagpur_live_weather()
 
         avg_score = round(sum(d["match_percentage"] for d in top_recommendations) / len(top_recommendations), 1) if top_recommendations else 0
         top_score = top_recommendations[0]["match_percentage"] if top_recommendations else 0
 
         session['last_recommendation'] = {
-            "recommendations": top_recommendations,
-            "itinerary": itinerary,
-            "user_prefs": user_prefs,
+            "top_ids": [d["id"] for d in top_recommendations],
             "stats": {
                 "analyzed_count": len(all_destinations),
                 "top_score": top_score,
@@ -146,6 +155,7 @@ def recommend_api():
             "recommendations": top_recommendations,
             "itinerary": itinerary,
             "user_prefs": user_prefs,
+            "weather": weather_info,
             "stats": {
                 "analyzed_count": len(all_destinations),
                 "top_score": top_score,

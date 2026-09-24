@@ -45,12 +45,40 @@
 
 body {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  background-color: var(--bg-main);
+  background-color: #070a13;
+  background-image: 
+    radial-gradient(ellipse 90% 60% at 50% -15%, rgba(6, 182, 212, 0.16), transparent 70%),
+    radial-gradient(ellipse 70% 50% at 95% 20%, rgba(99, 102, 241, 0.14), transparent 60%),
+    radial-gradient(ellipse 65% 45% at 5% 45%, rgba(14, 165, 233, 0.1), transparent 60%),
+    radial-gradient(ellipse 75% 55% at 85% 80%, rgba(245, 158, 11, 0.08), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 15% 95%, rgba(99, 102, 241, 0.12), transparent 60%);
+  background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Subtle Modern Dot Grid Matrix for Visual Depth & Texture */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 50%, transparent 95%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 50%, transparent 95%);
+}
+
+.navbar, main, footer, .modal-overlay {
+  position: relative;
+  z-index: 1;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -230,6 +258,164 @@ a:hover {
   max-width: 780px;
 }
 
+/* ============================================================
+   PAGE BANNER SYSTEM (FOR EXPLORE, FOOD, PLAN, RESULTS, ROADMAP)
+   ============================================================ */
+.page-banner {
+  position: relative;
+  padding: 5.5rem 1.5rem 4.5rem;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.page-banner-content {
+  position: relative;
+  z-index: 2;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.page-banner-title {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.page-banner-title span {
+  color: var(--cyan-primary);
+  background: linear-gradient(135deg, var(--cyan-primary), #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.page-banner-desc {
+  font-size: 1.12rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* Individual Banner Backgrounds with High-Quality Themed Photography */
+.page-banner-explore {
+  background: linear-gradient(180deg, rgba(8, 12, 22, 0.72) 0%, rgba(11, 15, 25, 0.88) 70%, #070a13 100%),
+              url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+  background-attachment: fixed;
+}
+
+.page-banner-food {
+  background: linear-gradient(180deg, rgba(8, 12, 22, 0.72) 0%, rgba(11, 15, 25, 0.88) 70%, #070a13 100%),
+              url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+  background-attachment: fixed;
+}
+
+.page-banner-food .page-banner-title span {
+  background: linear-gradient(135deg, #f59e0b, #fbbf24);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.page-banner-plan {
+  background: linear-gradient(180deg, rgba(8, 12, 22, 0.74) 0%, rgba(11, 15, 25, 0.88) 70%, #070a13 100%),
+              url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+  background-attachment: fixed;
+}
+
+.page-banner-plan .page-banner-title span {
+  background: linear-gradient(135deg, var(--indigo-accent), #a5b4fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.page-banner-results {
+  background: linear-gradient(180deg, rgba(8, 12, 22, 0.74) 0%, rgba(11, 15, 25, 0.88) 70%, #070a13 100%),
+              url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+  background-attachment: fixed;
+}
+
+.page-banner-coming-soon {
+  background: linear-gradient(180deg, rgba(8, 12, 22, 0.75) 0%, rgba(11, 15, 25, 0.88) 70%, #070a13 100%),
+              url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+  background-attachment: fixed;
+}
+
+.page-banner-coming-soon .page-banner-title span {
+  background: linear-gradient(135deg, #a855f7, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Atmospheric Banner Glows */
+.page-banner-glow {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 280px;
+  background: radial-gradient(ellipse at center, rgba(6, 182, 212, 0.25), transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.page-banner-glow-amber {
+  background: radial-gradient(ellipse at center, rgba(245, 158, 11, 0.28), transparent 70%);
+}
+
+.page-banner-glow-indigo {
+  background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.3), transparent 70%);
+}
+
+.page-banner-glow-purple {
+  background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.28), transparent 70%);
+}
+
+/* Ambient Floating Backdrop Lighting Container & Orbs */
+.ambient-lighting-container {
+  position: relative;
+}
+
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.16;
+}
+
+.ambient-orb-1 {
+  width: 480px;
+  height: 480px;
+  background: #06b6d4;
+  top: 5%;
+  left: -140px;
+}
+
+.ambient-orb-2 {
+  width: 520px;
+  height: 520px;
+  background: #6366f1;
+  top: 40%;
+  right: -160px;
+}
+
+.ambient-orb-3 {
+  width: 450px;
+  height: 450px;
+  background: #f59e0b;
+  bottom: 8%;
+  left: 10%;
+}
+
 /* QUICK SEARCH WIDGET */
 .quick-planner-card {
   background: rgba(20, 30, 51, 0.9);
@@ -243,9 +429,9 @@ a:hover {
 
 .quick-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 1.25rem;
-  align-items: end;
+  align-items: start;
 }
 
 .field-label {
@@ -257,25 +443,43 @@ a:hover {
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
+  height: 18px;
 }
 
 .select-input {
   width: 100%;
-  background: rgba(11, 15, 25, 0.8);
+  height: 48px;
+  background: rgba(11, 15, 25, 0.85);
   border: 1px solid var(--border-subtle);
   color: #ffffff;
-  padding: 0.75rem 1rem;
+  padding: 0 1rem;
   border-radius: var(--radius-sm);
   font-family: inherit;
   font-size: 0.95rem;
   outline: none;
   transition: var(--transition-normal);
+  cursor: pointer;
 }
 
 .select-input:focus {
   border-color: var(--cyan-primary);
   box-shadow: 0 0 10px var(--cyan-glow);
+}
+
+.quick-submit-btn {
+  width: 100%;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 700;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  letter-spacing: 0.02em;
 }
 
 /* PIPELINE SECTION */
@@ -348,11 +552,13 @@ a:hover {
 }
 
 .card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  background: rgba(20, 30, 51, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4);
   transition: var(--transition-normal);
   display: flex;
   flex-direction: column;
@@ -360,8 +566,9 @@ a:hover {
 
 .card:hover {
   transform: translateY(-6px);
-  border-color: var(--border-active);
-  box-shadow: var(--shadow-lg);
+  background: rgba(26, 39, 66, 0.88);
+  border-color: rgba(6, 182, 212, 0.45);
+  box-shadow: 0 20px 40px -10px rgba(6, 182, 212, 0.25);
 }
 
 .card-img-wrapper {
@@ -992,15 +1199,20 @@ a:hover {
 }
 
 .roadmap-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
+  background: rgba(20, 30, 51, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-md);
   padding: 2rem 1.75rem;
   transition: var(--transition-normal);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.35);
 }
 
 .roadmap-card:hover {
-  border-color: var(--cyan-primary);
+  border-color: rgba(99, 102, 241, 0.5);
+  background: rgba(26, 39, 66, 0.88);
+  box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.25);
   transform: translateY(-4px);
 }
 
@@ -1087,3 +1299,98 @@ footer {
   .live-summary-bar { flex-direction: column; align-items: flex-start; }
   .results-tab-nav { flex-direction: column; }
 }
+
+/* LEAFLET MAP CUSTOM STYLING & POPUP OVERRIDES */
+.leaflet-container {
+  font-family: 'Inter', sans-serif !important;
+}
+
+.custom-leaflet-pin {
+  background: transparent !important;
+  border: none !important;
+}
+
+.custom-leaflet-pin div {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.custom-leaflet-pin:hover div {
+  transform: scale(1.22);
+}
+
+.leaflet-popup-content-wrapper {
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.leaflet-popup-content {
+  margin: 12px !important;
+  line-height: 1.4 !important;
+}
+
+.leaflet-popup-tip {
+  background: #ffffff !important;
+}
+
+/* TRAVEL PASS PRINT STYLING */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  .navbar, footer, .results-tab-nav, .btn, .modal-overlay, #dayFilterNav, #mapDayFilterNav {
+    display: none !important;
+  }
+
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .results-tab-panel {
+    display: block !important;
+  }
+
+  #tabMap, #tabBreakdown {
+    display: none !important;
+  }
+
+  #liveWeatherWidget {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+  }
+
+  #liveWeatherWidget * {
+    color: #0f172a !important;
+  }
+
+  .card, .spotlight-card, .timeline-item {
+    break-inside: avoid;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+    color: #0f172a !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .card-title, .section-title, h1, h2, h3, h4, p, span, strong, em {
+    color: #0f172a !important;
+  }
+
+  .tag-pill, .match-badge, .card-category-badge {
+    border: 1px solid #94a3b8 !important;
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+  }
+
+  .timeline-content {
+    border: 1px solid #e2e8f0 !important;
+    background: #f8fafc !important;
+  }
+}
+

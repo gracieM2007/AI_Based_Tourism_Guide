@@ -3,14 +3,23 @@
 {% block title %}Personalise Your Trip — TripMitra AI Interactive Configurator{% endblock %}
 
 {% block content %}
-<div class="container" style="padding-top: 3.5rem; padding-bottom: 7rem;">
-    <div class="section-header" style="text-align: center;">
-        <span class="section-tag"><i class="fa-solid fa-sliders"></i> INTERACTIVE TRAVEL CONFIGURATOR</span>
-        <h1 class="section-title">Configure Your Custom Travel Profile</h1>
-        <p style="color: var(--text-secondary); max-width: 650px; margin: 0.5rem auto 0;">
-            Adjust budget limits, trip days, distance radius, and key interests to generate dynamic AI itineraries across Nagpur.
+<!-- PAGE HERO BANNER -->
+<section class="page-banner page-banner-plan">
+    <div class="page-banner-glow page-banner-glow-indigo"></div>
+    <div class="page-banner-content">
+        <span class="hero-eyebrow" style="background: rgba(99, 102, 241, 0.12); border-color: rgba(99, 102, 241, 0.35); color: #818cf8;">
+            <i class="fa-solid fa-sliders"></i> INTERACTIVE TRAVEL CONFIGURATOR
+        </span>
+        <h1 class="page-banner-title">Configure Your Custom <span>Travel Profile</span></h1>
+        <p class="page-banner-desc">
+            Adjust budget limits, trip days, distance radius, and key interests to generate dynamic AI recommendations and route-optimized schedules across Nagpur.
         </p>
     </div>
+</section>
+
+<div class="container ambient-lighting-container" style="padding-bottom: 7rem;">
+    <div class="ambient-orb ambient-orb-1" style="background: #6366f1;"></div>
+    <div class="ambient-orb ambient-orb-2" style="background: #06b6d4;"></div>
 
     <!-- FORM ERROR ALERT BOX -->
     <div id="formError" style="display: none; max-width: 900px; margin: 0 auto 1.5rem; background: rgba(239, 68, 68, 0.12); border: 1px solid #ef4444; color: #fca5a5; padding: 1rem; border-radius: 12px; font-weight: 600; text-align: center;">
@@ -54,7 +63,7 @@
     </div>
 
     <!-- MULTI-STEP PLANNER FORM WRAPPER -->
-    <div id="formWrapper" style="max-width: 900px; margin: 0 auto; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 2.5rem; box-shadow: var(--shadow-lg);">
+    <div id="formWrapper" style="max-width: 900px; margin: 0 auto; background: rgba(20, 30, 51, 0.78); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); padding: 2.5rem; box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.55);">
         <form id="plannerForm">
 
             <!-- STEP 1 PANEL: BUDGET SLIDER & TRIP DAYS COUNTER -->

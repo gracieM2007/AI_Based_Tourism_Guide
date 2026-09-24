@@ -70,7 +70,7 @@ function renderModalContent(dest) {
     const lat = dest.latitude || 21.1458;
     const lng = dest.longitude || 79.0882;
     const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
-    const embedUrl = `https://maps.google.com/maps?q=${lat},${lng}&z=14&output=embed`;
+    const embedUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.018}%2C${lat - 0.012}%2C${lng + 0.018}%2C${lat + 0.012}&layer=mapnik&marker=${lat}%2C${lng}`;
     const foodId = dest.nearby_food_id || 'food-haldiram-shankar';
     const foodName = dest.nearby_food_name || "Haldiram's Shankar Nagar Food Hub";
 

@@ -3,30 +3,56 @@
 {% block title %}Explore Nagpur Destinations & Hidden Gems — TripMitra AI{% endblock %}
 
 {% block content %}
-<div class="container" style="padding-top: 3.5rem; padding-bottom: 6rem;">
-    <div class="section-header" style="text-align: center;">
-        <span class="section-tag"><i class="fa-solid fa-binoculars"></i> DESTINATION INTELLIGENCE</span>
-        <h1 class="section-title">Explore Nagpur Places & Hidden Gems</h1>
-        <p style="color: var(--text-secondary); max-width: 680px; margin: 0.5rem auto 0;">
-            Browse our dataset of 23 authentic Nagpur destinations, iconic monuments, local food streets, and quiet hidden secrets.
+<!-- PAGE HERO BANNER -->
+<section class="page-banner page-banner-explore">
+    <div class="page-banner-glow"></div>
+    <div class="page-banner-content">
+        <span class="hero-eyebrow"><i class="fa-solid fa-binoculars"></i> DESTINATION INTELLIGENCE</span>
+        <h1 class="page-banner-title">Explore Nagpur Places & <span>Hidden Gems</span></h1>
+        <p class="page-banner-desc">
+            Browse our curated dataset of 23 authentic Nagpur destinations, iconic monuments, serene lakes, and quiet hidden treasures.
         </p>
+    </div>
+</section>
+
+<div class="container ambient-lighting-container" style="padding-bottom: 6rem;">
+    <div class="ambient-orb ambient-orb-1"></div>
+    <div class="ambient-orb ambient-orb-2"></div>
+
+    <!-- INSTANT SEARCH & FILTER BAR -->
+    <div style="max-width: 620px; margin: 0 auto 2rem; position: relative;">
+        <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 1.25rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.05rem;"></i>
+        <input type="text" id="exploreSearchInput" placeholder="Search by name, category, or keyword (e.g. 'Lake', 'Fort', 'Saoji')..." 
+               style="width: 100%; padding: 0.95rem 7.5rem 0.95rem 3.2rem; background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 30px; color: #ffffff; font-size: 0.95rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s;"
+               oninput="applyExploreFilters()">
+        <span id="exploreCountBadge" style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); font-size: 0.78rem; color: var(--cyan-primary); background: rgba(0, 210, 255, 0.12); padding: 0.3rem 0.75rem; border-radius: 14px; font-weight: 700; border: 1px solid rgba(0, 210, 255, 0.25);">
+            23 Places
+        </span>
     </div>
 
     <!-- CATEGORY FILTER PILLS -->
     <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem;">
-        <button class="preset-pill active" onclick="filterExploreCategory(this, 'all')"><i class="fa-solid fa-layer-group"></i> All Places (23)</button>
-        <button class="preset-pill" onclick="filterExploreCategory(this, 'hidden_gem')" style="border-color: var(--indigo-accent); color: var(--indigo-accent);"><i class="fa-solid fa-gem"></i> Hidden Gems & Secrets</button>
-        <button class="preset-pill" onclick="filterExploreCategory(this, 'Nature')"><i class="fa-solid fa-tree"></i> Nature & Lakes</button>
-        <button class="preset-pill" onclick="filterExploreCategory(this, 'Historical')"><i class="fa-solid fa-landmark"></i> Heritage & Forts</button>
-        <button class="preset-pill" onclick="filterExploreCategory(this, 'Spiritual')"><i class="fa-solid fa-place-of-worship"></i> Spiritual Temples</button>
-        <button class="preset-pill" onclick="filterExploreCategory(this, 'Food')"><i class="fa-solid fa-utensils"></i> Food & Dining</button>
-        <button class="preset-pill" onclick="filterExploreCategory(this, 'Adventure')"><i class="fa-solid fa-mountain"></i> Safaris & Treks</button>
+        <button class="preset-pill active" onclick="setExploreCategory(this, 'all')"><i class="fa-solid fa-layer-group"></i> All Places</button>
+        <button class="preset-pill" onclick="setExploreCategory(this, 'hidden_gem')" style="border-color: var(--indigo-accent); color: var(--indigo-accent);"><i class="fa-solid fa-gem"></i> Hidden Gems</button>
+        <button class="preset-pill" onclick="setExploreCategory(this, 'Nature')"><i class="fa-solid fa-tree"></i> Nature & Lakes</button>
+        <button class="preset-pill" onclick="setExploreCategory(this, 'Historical')"><i class="fa-solid fa-landmark"></i> Heritage & Forts</button>
+        <button class="preset-pill" onclick="setExploreCategory(this, 'Spiritual')"><i class="fa-solid fa-place-of-worship"></i> Spiritual Temples</button>
+        <button class="preset-pill" onclick="setExploreCategory(this, 'Food')"><i class="fa-solid fa-utensils"></i> Food & Dining</button>
+        <button class="preset-pill" onclick="setExploreCategory(this, 'Adventure')"><i class="fa-solid fa-mountain"></i> Safaris & Treks</button>
+    </div>
+
+    <!-- ZERO RESULTS EMPTY STATE -->
+    <div id="exploreEmptyState" style="display: none; text-align: center; padding: 4rem 2rem; background: var(--bg-surface); border-radius: 16px; border: 1px solid var(--border-subtle); max-width: 500px; margin: 2rem auto;">
+        <i class="fa-solid fa-circle-question" style="font-size: 2.5rem; color: var(--text-muted); margin-bottom: 1rem;"></i>
+        <h3 style="color: #ffffff; font-size: 1.25rem; margin-bottom: 0.5rem;">No Destinations Found</h3>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">No places match your search query and selected filter.</p>
+        <button class="btn btn-outline" onclick="resetExploreFilters()"><i class="fa-solid fa-arrow-rotate-left"></i> Reset All Filters</button>
     </div>
 
     <!-- ALL DESTINATIONS GRID -->
     <div class="grid-3" id="exploreGrid">
         {% for dest in destinations %}
-        <div class="card explore-card-item" data-category="{{ dest.category }}" data-hidden="{{ dest.is_hidden_gem }}">
+        <div class="card explore-card-item" data-category="{{ dest.category }}" data-hidden="{{ dest.is_hidden_gem }}" data-name="{{ dest.name }}" data-desc="{{ dest.description }}">
             <div class="card-img-wrapper">
                 <img src="{{ dest.image_url }}" alt="{{ dest.name }}" class="card-img">
                 <span class="card-category-badge"><i class="fa-solid fa-tag"></i> {{ dest.category }}</span>
@@ -60,28 +86,67 @@
 
 {% block extra_js %}
 <script>
-function filterExploreCategory(btnElement, category) {
+let currentExploreCategory = 'all';
+
+function setExploreCategory(btnElement, category) {
     document.querySelectorAll('.preset-pill').forEach(btn => btn.classList.remove('active'));
     if (btnElement) btnElement.classList.add('active');
+    currentExploreCategory = category;
+    applyExploreFilters();
+}
 
-    document.querySelectorAll('.explore-card-item').forEach(card => {
-        const itemCat = card.getAttribute('data-category');
+function applyExploreFilters() {
+    const searchInput = document.getElementById('exploreSearchInput');
+    const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+    const cards = document.querySelectorAll('.explore-card-item');
+    const emptyState = document.getElementById('exploreEmptyState');
+    const countBadge = document.getElementById('exploreCountBadge');
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+        const itemCat = card.getAttribute('data-category') || '';
         const isHidden = card.getAttribute('data-hidden') === '1';
+        const name = (card.getAttribute('data-name') || card.querySelector('.card-title')?.innerText || '').toLowerCase();
+        const desc = (card.getAttribute('data-desc') || card.querySelector('.card-desc')?.innerText || '').toLowerCase();
 
-        if (category === 'all') {
+        // 1. Check category filter
+        let categoryMatch = false;
+        if (currentExploreCategory === 'all') {
+            categoryMatch = true;
+        } else if (currentExploreCategory === 'hidden_gem') {
+            categoryMatch = isHidden;
+        } else if (itemCat.toLowerCase() === currentExploreCategory.toLowerCase()) {
+            categoryMatch = true;
+        }
+
+        // 2. Check search keyword match
+        let searchMatch = true;
+        if (query) {
+            searchMatch = name.includes(query) || desc.includes(query) || itemCat.toLowerCase().includes(query);
+        }
+
+        if (categoryMatch && searchMatch) {
             card.style.display = 'flex';
-        } else if (category === 'hidden_gem') {
-            if (isHidden) {
-                card.style.display = 'flex';
-            } else {
-                card.style.display = 'none';
-            }
-        } else if (itemCat === category) {
-            card.style.display = 'flex';
+            visibleCount++;
         } else {
             card.style.display = 'none';
         }
     });
+
+    if (countBadge) {
+        countBadge.innerText = `${visibleCount} ${visibleCount === 1 ? 'Place' : 'Places'}`;
+    }
+
+    if (emptyState) {
+        emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+}
+
+function resetExploreFilters() {
+    const searchInput = document.getElementById('exploreSearchInput');
+    if (searchInput) searchInput.value = '';
+    const allPill = document.querySelector('.preset-pill');
+    if (allPill) setExploreCategory(allPill, 'all');
 }
 
 // Client-side API fallback if server rendered template was empty

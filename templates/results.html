@@ -3,10 +3,24 @@
 {% block title %}Your Personalised Nagpur Recommendations — TripMitra AI{% endblock %}
 
 {% block content %}
-<div class="container" style="padding-top: 3.5rem; padding-bottom: 6rem;">
+<!-- PAGE HERO BANNER -->
+<section class="page-banner page-banner-results">
+    <div class="page-banner-glow"></div>
+    <div class="page-banner-content">
+        <span class="hero-eyebrow"><i class="fa-solid fa-route"></i> INTELLIGENT TRAVEL ITINERARY & ADVISORY</span>
+        <h1 class="page-banner-title">Your Personalized <span>Nagpur Travel Pass</span></h1>
+        <p class="page-banner-desc">
+            AI-ranked attractions, optimized multi-day travel routes, live local weather advisories, and smart expense splits tailored to your profile.
+        </p>
+    </div>
+</section>
+
+<div class="container ambient-lighting-container" style="padding-bottom: 6rem;">
+    <div class="ambient-orb ambient-orb-1"></div>
+    <div class="ambient-orb ambient-orb-2"></div>
 
     <!-- NO DATA FALLBACK -->
-    <div id="noDataState" style="display: none; text-align: center; padding: 5rem 2rem; background: var(--bg-surface); border-radius: 16px; border: 1px solid var(--border-subtle); max-width: 650px; margin: 2rem auto;">
+    <div id="noDataState" style="display: none; text-align: center; padding: 5rem 2rem; background: rgba(20, 30, 51, 0.75); backdrop-filter: blur(16px); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); max-width: 650px; margin: 2rem auto;">
         <div style="font-size: 3rem; color: var(--cyan-primary); margin-bottom: 1rem;"><i class="fa-solid fa-compass"></i></div>
         <h2 style="font-size: 1.8rem; margin-bottom: 0.5rem;">No Recommendation Configured</h2>
         <p style="color: var(--text-secondary); max-width: 480px; margin: 0 auto 2rem;">
@@ -21,7 +35,7 @@
     <div id="resultsContainer" style="display: block;">
         
         <!-- TOP DASHBOARD BANNER -->
-        <div style="background: linear-gradient(135deg, var(--bg-surface), #0f192c); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 2.25rem; margin-bottom: 2.5rem; box-shadow: var(--shadow-lg);">
+        <div style="background: rgba(20, 30, 51, 0.78); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-lg); padding: 2.25rem; margin-bottom: 2.5rem; box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.55);">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
                 <div>
                     <span class="section-tag"><i class="fa-solid fa-brain"></i> AI PERSONALISATION OUTPUT</span>
@@ -32,14 +46,49 @@
                         Processing recommendation weights...
                     </p>
                 </div>
-                <a href="/plan" class="btn btn-outline" style="padding: 0.6rem 1.25rem; font-size: 0.88rem;">
-                    <i class="fa-solid fa-sliders"></i> Modify Preferences
-                </a>
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                    <button type="button" class="btn btn-secondary" onclick="shareTripToWhatsApp()" style="padding: 0.6rem 1.25rem; font-size: 0.88rem; border-color: #25d366; color: #25d366; background: rgba(37, 211, 102, 0.08);">
+                        <i class="fa-brands fa-whatsapp"></i> Share on WhatsApp
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="window.print()" style="padding: 0.6rem 1.25rem; font-size: 0.88rem;">
+                        <i class="fa-solid fa-file-arrow-down"></i> Print / Save Travel Pass
+                    </button>
+                    <a href="/plan" class="btn btn-outline" style="padding: 0.6rem 1.25rem; font-size: 0.88rem;">
+                        <i class="fa-solid fa-sliders"></i> Modify Preferences
+                    </a>
+                </div>
+            </div>
+
+            <!-- LIVE NAGPUR WEATHER & TOURIST ADVISORY CARD -->
+            <div id="liveWeatherWidget" style="margin-top: 1.75rem; background: rgba(11, 15, 25, 0.85); border: 1px solid rgba(0, 210, 255, 0.3); border-radius: 14px; padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.25rem;">
+                <div style="display: flex; align-items: center; gap: 1.25rem;">
+                    <div id="weatherIconWrapper" style="font-size: 2.4rem; color: var(--cyan-primary); display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: rgba(0, 210, 255, 0.1); border-radius: 12px;">
+                        <i class="fa-solid fa-cloud-sun"></i>
+                    </div>
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 0.6rem;">
+                            <span id="weatherTemp" style="font-size: 1.6rem; font-weight: 800; color: #ffffff;">--°C</span>
+                            <span id="weatherCondition" class="tag-pill" style="margin: 0; background: rgba(0, 210, 255, 0.15); color: var(--cyan-primary); font-weight: 600;">Fetching live weather...</span>
+                        </div>
+                        <p id="weatherSubtext" style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.2rem;">
+                            Nagpur Live Atmosphere • Sunset: <span id="weatherSunset">--:--</span> • Humidity: <span id="weatherHumidity">--%</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div style="flex: 1; min-width: 280px; max-width: 600px; background: rgba(255, 255, 255, 0.03); border-left: 3px solid var(--cyan-primary); padding: 0.75rem 1rem; border-radius: 8px;">
+                    <div style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--cyan-primary); letter-spacing: 0.05em; margin-bottom: 0.25rem;">
+                        <i class="fa-solid fa-compass"></i> Live Tourism & Packing Advisory
+                    </div>
+                    <p id="weatherAdvisoryText" style="font-size: 0.88rem; color: #cbd5e1; line-height: 1.4; margin: 0;">
+                        Loading intelligent recommendation for today's weather in Nagpur...
+                    </p>
+                </div>
             </div>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.25rem; margin-top: 1.75rem;">
                 <div style="background: rgba(11, 15, 25, 0.7); border: 1px solid var(--border-subtle); padding: 1.1rem; border-radius: 12px; text-align: center;">
-                    <div id="statAnalyzed" style="font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; color: var(--cyan-primary);">20</div>
+                    <div id="statAnalyzed" style="font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; color: var(--cyan-primary);">23</div>
                     <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem;">Destinations Analyzed</div>
                 </div>
 
@@ -52,6 +101,68 @@
                     <div id="statAvgScore" style="font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; color: var(--indigo-accent);">88%</div>
                     <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem;">Average Match Score</div>
                 </div>
+
+                <div style="background: rgba(11, 15, 25, 0.7); border: 1px solid var(--border-subtle); padding: 1.1rem; border-radius: 12px; text-align: center;">
+                    <div id="statTspSaving" style="font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 800; color: var(--amber-warning);">~6.8 km</div>
+                    <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.2rem;">TSP Transit Saved</div>
+                </div>
+            </div>
+
+            <!-- SMART TRAVEL EXPENSE & BUDGET ALLOCATION SPLITTER -->
+            <div id="budgetSplitterCard" style="margin-top: 1.75rem; background: rgba(11, 15, 25, 0.7); border: 1px solid var(--border-subtle); border-radius: 14px; padding: 1.25rem 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.85rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <span style="width: 28px; height: 28px; border-radius: 6px; background: rgba(0, 210, 255, 0.12); color: var(--cyan-primary); display: flex; align-items: center; justify-content: center; font-size: 0.85rem;"><i class="fa-solid fa-chart-pie"></i></span>
+                        <h4 style="color: #ffffff; font-size: 0.95rem; margin: 0; font-weight: 700;">Smart Budget Allocation Splitter</h4>
+                        <span style="font-size: 0.75rem; color: var(--text-muted);">(Calculated for your <span id="budgetTotalLabel">Rs. 2,000</span> budget)</span>
+                    </div>
+                    <span style="font-size: 0.75rem; color: var(--emerald-success); background: rgba(16, 185, 129, 0.1); padding: 0.2rem 0.6rem; border-radius: 20px; font-weight: 600;">
+                        <i class="fa-solid fa-check"></i> 100% Budget Optimized
+                    </span>
+                </div>
+
+                <!-- PROGRESSIVE EXPENSE MULTI-BAR -->
+                <div style="height: 12px; width: 100%; border-radius: 6px; overflow: hidden; display: flex; background: #1e293b; margin-bottom: 1rem; box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);">
+                    <div id="barFood" style="width: 40%; background: #f59e0b; transition: width 0.5s ease;" title="Food & Dining: 40%"></div>
+                    <div id="barTransit" style="width: 25%; background: #00d2ff; transition: width 0.5s ease;" title="Transit & Metro: 25%"></div>
+                    <div id="barEntry" style="width: 15%; background: #10b981; transition: width 0.5s ease;" title="Entry Tickets: 15%"></div>
+                    <div id="barShopping" style="width: 20%; background: #a855f7; transition: width 0.5s ease;" title="Orange Sweets & Buffer: 20%"></div>
+                </div>
+
+                <!-- EXPENSE BREAKDOWN CHIPS -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem;">
+                    <div class="expense-chip" style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 10px; padding: 0.6rem 0.85rem;">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span style="font-size: 0.75rem; color: #f59e0b; font-weight: 700;"><i class="fa-solid fa-utensils"></i> Food & Saoji (40%)</span>
+                            <strong id="costFood" style="color: #ffffff; font-size: 0.88rem;">Rs. 800</strong>
+                        </div>
+                        <p style="font-size: 0.72rem; color: var(--text-muted); margin: 0.2rem 0 0 0;">Tarri Poha, Saoji lunch & Kulfi</p>
+                    </div>
+
+                    <div class="expense-chip" style="background: rgba(0, 210, 255, 0.08); border: 1px solid rgba(0, 210, 255, 0.25); border-radius: 10px; padding: 0.6rem 0.85rem;">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span style="font-size: 0.75rem; color: var(--cyan-primary); font-weight: 700;"><i class="fa-solid fa-train-subway"></i> Transit & Auto (25%)</span>
+                            <strong id="costTransit" style="color: #ffffff; font-size: 0.88rem;">Rs. 500</strong>
+                        </div>
+                        <p style="font-size: 0.72rem; color: var(--text-muted); margin: 0.2rem 0 0 0;">Nagpur Metro & E-Rickshaws</p>
+                    </div>
+
+                    <div class="expense-chip" style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 10px; padding: 0.6rem 0.85rem;">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span style="font-size: 0.75rem; color: var(--emerald-success); font-weight: 700;"><i class="fa-solid fa-ticket"></i> Entry Tickets (15%)</span>
+                            <strong id="costEntry" style="color: #ffffff; font-size: 0.88rem;">Rs. 300</strong>
+                        </div>
+                        <p style="font-size: 0.72rem; color: var(--text-muted); margin: 0.2rem 0 0 0;">Museum & garden admissions</p>
+                    </div>
+
+                    <div class="expense-chip" style="background: rgba(168, 85, 247, 0.08); border: 1px solid rgba(168, 85, 247, 0.25); border-radius: 10px; padding: 0.6rem 0.85rem;">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <span style="font-size: 0.75rem; color: #a855f7; font-weight: 700;"><i class="fa-solid fa-gift"></i> Orange Sweets (20%)</span>
+                            <strong id="costShopping" style="color: #ffffff; font-size: 0.88rem;">Rs. 400</strong>
+                        </div>
+                        <p style="font-size: 0.72rem; color: var(--text-muted); margin: 0.2rem 0 0 0;">Haldiram Barfi box & buffer</p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -62,6 +173,9 @@
             </button>
             <button class="results-tab-btn" data-tab="itinerary">
                 <i class="fa-solid fa-calendar-days"></i> Detailed Multi-Day Itinerary
+            </button>
+            <button class="results-tab-btn" data-tab="map">
+                <i class="fa-solid fa-map-location-dot"></i> Interactive Route Map
             </button>
             <button class="results-tab-btn" data-tab="breakdown">
                 <i class="fa-solid fa-chart-pie"></i> AI Vector Breakdown
@@ -113,7 +227,40 @@
             </div>
         </div>
 
-        <!-- TAB 3: AI VECTOR BREAKDOWN -->
+        <!-- TAB 3: INTERACTIVE ROUTE MAP -->
+        <div class="results-tab-panel" id="tabMap">
+            <div class="section-header" style="margin-bottom: 1.5rem;">
+                <span class="section-tag"><i class="fa-solid fa-map-location-dot"></i> GEOSPATIAL ROUTE OPTIMIZATION</span>
+                <h2 class="section-title">Interactive Nagpur Route & Itinerary Map</h2>
+                <p style="color: var(--text-secondary);">
+                    Real-time spatial visualization powered by Leaflet & OpenStreetMap. Daily stops sequenced using Nearest-Neighbor TSP heuristic.
+                </p>
+            </div>
+
+            <!-- MAP CONTROLS & ROUTE SELECTOR -->
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
+                <div id="mapDayFilterNav" class="day-filter-nav" style="margin-bottom: 0;">
+                    <!-- Injected via JS -->
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.85rem; color: var(--text-muted);">
+                    <span style="display: inline-flex; align-items: center; gap: 0.4rem;"><span style="width: 12px; height: 12px; border-radius: 50%; background: #00d2ff; display: inline-block;"></span> Day 1 Route</span>
+                    <span style="display: inline-flex; align-items: center; gap: 0.4rem;"><span style="width: 12px; height: 12px; border-radius: 50%; background: #f59e0b; display: inline-block;"></span> Day 2 Route</span>
+                    <span style="display: inline-flex; align-items: center; gap: 0.4rem;"><span style="width: 12px; height: 12px; border-radius: 50%; background: #10b981; display: inline-block;"></span> Day 3+ Route</span>
+                </div>
+            </div>
+
+            <!-- LEAFLET MAP CANVAS CONTAINER -->
+            <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 1rem; margin-bottom: 1.5rem; position: relative;">
+                <div id="nagpurLeafletMap" style="height: 520px; width: 100%; border-radius: 12px; overflow: hidden; background: #0b0f19;"></div>
+            </div>
+
+            <!-- ROUTE SEQUENCE LEGEND LIST -->
+            <div id="mapRouteStopsList" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+
+        <!-- TAB 4: AI VECTOR BREAKDOWN -->
         <div class="results-tab-panel" id="tabBreakdown">
             <div class="section-header" style="margin-bottom: 1.5rem;">
                 <span class="section-tag"><i class="fa-solid fa-microchip"></i> VECTOR ALGORITHM BREAKDOWN</span>
